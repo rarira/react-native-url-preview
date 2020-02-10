@@ -131,7 +131,9 @@ export default class RNUrlPreview extends React.PureComponent {
     imageProps,
     getImageLink
   ) => {
-    getImageLink(imageLink);
+    if (!!imageLink || !!faviconLink) {
+      getImageLink(imageLink ? imageLink : faviconLink);
+    }
     return (
       <TouchableOpacity
         style={[styles.containerStyle, containerStyle]}
