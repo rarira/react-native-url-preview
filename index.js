@@ -1,6 +1,3 @@
-import React from "react";
-import LinkPreview from "link-preview-js";
-import PropTypes from "prop-types";
 import {
   Image,
   Linking,
@@ -10,6 +7,10 @@ import {
   View,
   ViewPropTypes
 } from "react-native";
+
+import PropTypes from "prop-types";
+import React from "react";
+import { getLinkPreview } from "link-preview-js";
 
 const REGEX = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/g;
 
@@ -27,7 +28,7 @@ export default class RNUrlPreview extends React.PureComponent {
   }
 
   getPreview = text => {
-    LinkPreview.getPreview(text)
+    getLinkPreview(text)
       .then(data => {
         this.setState({
           isUri: true,
@@ -127,8 +128,10 @@ export default class RNUrlPreview extends React.PureComponent {
     descriptionStyle,
     titleNumberOfLines,
     descriptionNumberOfLines,
-    imageProps
+    imageProps,
+    getImageLink
   ) => {
+    getImageLink(imageLink);
     return (
       <TouchableOpacity
         style={[styles.containerStyle, containerStyle]}
@@ -168,7 +171,8 @@ export default class RNUrlPreview extends React.PureComponent {
       titleNumberOfLines,
       descriptionStyle,
       descriptionNumberOfLines,
-      imageProps
+      imageProps,
+      getImageLink
     } = this.props;
     return this.state.isUri
       ? this.renderLinkPreview(
@@ -186,7 +190,8 @@ export default class RNUrlPreview extends React.PureComponent {
           descriptionStyle,
           titleNumberOfLines,
           descriptionNumberOfLines,
-          imageProps
+          imageProps,
+          getImageLink
         )
       : null;
   }
@@ -240,7 +245,8 @@ RNUrlPreview.defaultProps = {
     fontFamily: "Helvetica"
   },
   descriptionNumberOfLines: Platform.isPad ? 4 : 3,
-  imageProps: { resizeMode: "contain" }
+  imageProps: { resizeMode: "contain" },
+  getImageLink: text => null
 };
 
 RNUrlPreview.propTypes = {
@@ -253,5 +259,6 @@ RNUrlPreview.propTypes = {
   titleStyle: Text.propTypes.style,
   titleNumberOfLines: Text.propTypes.numberOfLines,
   descriptionStyle: Text.propTypes.style,
-  descriptionNumberOfLines: Text.propTypes.numberOfLines
+  descriptionNumberOfLines: Text.propTypes.numberOfLines,
+  getImageLink: PropTypes.func
 };
