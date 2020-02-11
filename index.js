@@ -56,9 +56,17 @@ export default class RNUrlPreview extends React.PureComponent {
       });
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.text !== null) {
-      this.getPreview(nextProps.text);
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.text !== null) {
+  //     this.getPreview(nextProps.text);
+  //   } else {
+  //     this.setState({ isUri: false });
+  //   }
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.text !== null) {
+      this.getPreview(props.text);
     } else {
       this.setState({ isUri: false });
     }
