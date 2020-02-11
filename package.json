@@ -1,6 +1,6 @@
 {
   "name": "react-native-url-preview",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "react native url previewer",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "youtube video preview",
     "link preview"
   ],
-  "author": "Zaidoune Maher",
+  "author": "Inseong Park",
   "license": "MIT",
   "peerDependencies": {
     "prop-types": "*",
