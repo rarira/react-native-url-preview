@@ -73,8 +73,28 @@ export default class RNUrlPreview extends React.PureComponent {
     faviconLink,
     imageStyle,
     faviconStyle,
-    imageProps
+    imageProps,
+    thumbnailURL
   ) => {
+    if (!!thumbnailURL) {
+      if (thumbnailURL.startsWith("favicon_")) {
+        return (
+          <Image
+            style={faviconStyle}
+            source={{ uri: thumbnailURL.slice(8) }}
+            {...imageProps}
+          />
+        );
+      } else {
+        return (
+          <Image
+            style={imageStyle}
+            source={{ uri: thumbnailURL }}
+            {...imageProps}
+          />
+        );
+      }
+    }
     return imageLink ? (
       <Image style={imageStyle} source={{ uri: imageLink }} {...imageProps} />
     ) : faviconLink ? (
@@ -129,10 +149,13 @@ export default class RNUrlPreview extends React.PureComponent {
     titleNumberOfLines,
     descriptionNumberOfLines,
     imageProps,
-    getImageLink
+    getImageLink,
+    thumbnailURL
   ) => {
-    if (!!imageLink || !!faviconLink) {
-      getImageLink(imageLink ? imageLink : faviconLink);
+    if (!!imageLink) {
+      getImageLink(imageLink);
+    } else if (!imageLink && !!faviconLink) {
+      getImageLink(`favicon_${faviconLink}`);
     }
     return (
       <TouchableOpacity
@@ -145,7 +168,8 @@ export default class RNUrlPreview extends React.PureComponent {
           faviconLink,
           imageStyle,
           faviconStyle,
-          imageProps
+          imageProps,
+          thumbnailURL
         )}
         {this.renderText(
           showTitle,
@@ -174,7 +198,8 @@ export default class RNUrlPreview extends React.PureComponent {
       descriptionStyle,
       descriptionNumberOfLines,
       imageProps,
-      getImageLink
+      getImageLink,
+      thumbnailURL
     } = this.props;
     return this.state.isUri
       ? this.renderLinkPreview(
@@ -193,7 +218,8 @@ export default class RNUrlPreview extends React.PureComponent {
           titleNumberOfLines,
           descriptionNumberOfLines,
           imageProps,
-          getImageLink
+          getImageLink,
+          thumbnailURL
         )
       : null;
   }
@@ -262,5 +288,6 @@ RNUrlPreview.propTypes = {
   titleNumberOfLines: Text.propTypes.numberOfLines,
   descriptionStyle: Text.propTypes.style,
   descriptionNumberOfLines: Text.propTypes.numberOfLines,
-  getImageLink: PropTypes.func
+  getImageLink: PropTypes.func,
+  thumbnailURL: PropTypes.string
 };
