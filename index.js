@@ -34,20 +34,22 @@ export default class RNUrlPreview extends React.PureComponent {
           isUri: true,
           linkTitle: data.title ? data.title : undefined,
           linkDesc: data.description ? data.description : undefined,
-          linkImg:
-            data.images && data.images.length > 0
-              ? data.images.find(function(element) {
-                  return (
-                    element.includes(".png") ||
-                    element.includes(".jpg") ||
-                    element.includes(".jpeg")
-                  );
-                })
-              : undefined,
-          linkFavicon:
-            data.favicons && data.favicons.length > 0
-              ? data.favicons[data.favicons.length - 1]
-              : undefined
+          linkImg: this.props.thumbnailURL
+            ? undefined
+            : data.images && data.images.length > 0
+            ? data.images.find(function(element) {
+                return (
+                  element.includes(".png") ||
+                  element.includes(".jpg") ||
+                  element.includes(".jpeg")
+                );
+              })
+            : undefined,
+          linkFavicon: this.props.thumbnailURL
+            ? undefined
+            : data.favicons && data.favicons.length > 0
+            ? data.favicons[data.favicons.length - 1]
+            : undefined
         });
       })
       .catch(error => {
