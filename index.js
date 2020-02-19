@@ -11,6 +11,7 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 import { getLinkPreview } from "link-preview-js";
+import normalize from "./normalize";
 
 const REGEX = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/g;
 
