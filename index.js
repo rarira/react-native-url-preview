@@ -240,37 +240,37 @@ RNUrlPreview.defaultProps = {
     alignItems: "center"
   },
   imageStyle: {
-    width: Platform.isPad ? 160 : 110,
-    height: Platform.isPad ? 160 : 110,
-    paddingRight: 10,
-    paddingLeft: 10
+    width: Platform.isPad ? normalize(160) : normalize(110),
+    height: Platform.isPad ? normalize(160) : normalize(110),
+    paddingRight: normalize(10),
+    paddingLeft: normalize(10)
   },
   faviconStyle: {
-    width: 40,
-    height: 40,
-    paddingRight: 10,
-    paddingLeft: 10
+    width: normalize(40),
+    height: normalize(40),
+    paddingRight: normalize(10),
+    paddingLeft: normalize(10)
   },
   textContainerStyle: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    padding: 10
+    padding: normalize(10)
   },
   title: true,
   titleStyle: {
-    fontSize: 17,
+    fontSize: normalize(12),
     color: "#000",
-    marginRight: 10,
+    marginRight: normalize(10),
     marginBottom: 5,
     alignSelf: "flex-start",
     fontFamily: "Helvetica"
   },
   titleNumberOfLines: 2,
   descriptionStyle: {
-    fontSize: 14,
+    fontSize: normalize(10),
     color: "#81848A",
-    marginRight: 10,
+    marginRight: normalize(10),
     alignSelf: "flex-start",
     fontFamily: "Helvetica"
   },
