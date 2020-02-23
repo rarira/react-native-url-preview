@@ -16,6 +16,8 @@ import normalize from "./normalize";
 const REGEX = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/g;
 
 export default class RNUrlPreview extends React.PureComponent {
+  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,34 +30,46 @@ export default class RNUrlPreview extends React.PureComponent {
     this.getPreview(props.text);
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   getPreview = text => {
     getLinkPreview(text)
       .then(data => {
-        this.setState({
-          isUri: true,
-          linkTitle: data.title ? data.title : undefined,
-          linkDesc: data.description ? data.description : undefined,
-          linkImg: this.props.thumbnailURL
-            ? undefined
-            : data.images && data.images.length > 0
-            ? data.images.find(function(element) {
-                return (
-                  element.includes(".png") ||
-                  element.includes(".jpg") ||
-                  element.includes(".jpeg")
-                );
-              })
-            : undefined,
-          linkFavicon: this.props.thumbnailURL
-            ? undefined
-            : data.favicons && data.favicons.length > 0
-            ? data.favicons[data.favicons.length - 1]
-            : undefined
-        });
+        if (this._isMounted) {
+          this.setState({
+            isUri: true,
+            linkTitle: data.title ? data.title : undefined,
+            linkDesc: data.description ? data.description : undefined,
+            linkImg: this.props.thumbnailURL
+              ? undefined
+              : data.images && data.images.length > 0
+              ? data.images.find(function(element) {
+                  return (
+                    element.includes(".png") ||
+                    element.includes(".jpg") ||
+                    element.includes(".jpeg")
+                  );
+                })
+              : undefined,
+            linkFavicon: this.props.thumbnailURL
+              ? undefined
+              : data.favicons && data.favicons.length > 0
+              ? data.favicons[data.favicons.length - 1]
+              : undefined
+          });
+        }
       })
       .catch(error => {
-        this.setState({ isUri: false });
-        console.log("LinkPreview error : ", error);
+        if (this._isMounted) {
+          this.setState({ isUri: false });
+          console.log("LinkPreview error : ", error);
+        }
       });
   };
 
